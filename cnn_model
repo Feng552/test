@@ -1,0 +1,19 @@
+import torch
+from torch import nn
+from torch.nn import Conv2d,ReLU,MaxPool2d,Linear,Flatten
+
+net = nn.Sequential(
+    Conv2d(1,32,kernel_size = 5,stride = 1,padding = 2),
+    Conv2d(32,32,kernel_size = 3, stride = 1,padding = 1),
+    ReLU(),
+    MaxPool2d(kernel_size = 3, stride = 2,padding = 1),
+    Conv2d(32,8,kernel_size = 3, stride = 1,padding = 1),
+    ReLU(),
+    MaxPool2d(kernel_size = 3,stride = 2,padding = 1),
+    Flatten(),
+    Linear(72,256))
+
+X = torch.randn(1, 1, 11, 11)
+for layer in net:
+    X=layer(X)
+    print(layer.__class__.__name__,'output shape:\t',X.shape)
